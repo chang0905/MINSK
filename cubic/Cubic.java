@@ -24,11 +24,33 @@ public class Cubic {
 			return l;
 		}
 	}
-	public static ArrayList<Double> soluteCubic(double a,double b,double c,double d)
+	public static boolean isPrime(int s)
 	{
+		for (int i=2;i*i<=s;i++)
+		{
+			if (s%i==0)
+				return false;
+		}
+		return true;
+	}
+	public static ArrayList<Double> soluteCubic(int a,int b,int c,int d)
+	{
+		int sum=a+b+c+d;
+		if (sum<0)
+			sum=-sum;
 		double[] peak;
 		ArrayList<Double>ans=new ArrayList<Double>();
 		peak=getPeak(3*a,2*b,c);
+		if (sum%2==0||isPrime(sum))
+		{
+			System.out.println("sum of a,b,c and d is not odd composite");
+			return ans;
+		}
+		if (a==0)
+		{
+			System.out.println("a shoule not be 0");
+			return ans;
+		}
 		if (peak==null)
 		ans.add(binarySearch(MIN,MAX,a,b,c,d));
 		else
@@ -89,6 +111,12 @@ public class Cubic {
 		double[] ret=new double[2];
 		ret[0]=(-b-sqrt(delta(a,b,c)))/2/a;
 		ret[1]=(-b+sqrt(delta(a,b,c)))/2/a;
+		if(a<0)
+		{
+			double q=ret[0];
+			ret[0]=ret[1];
+			ret[1]=q;
+		}
 		return ret;
 	}
 	
@@ -111,7 +139,7 @@ public class Cubic {
 	
 	public static void main(String[] args)
 	{
-		ArrayList ans=soluteCubic(1.2,-0.3,90,3);
+		ArrayList ans=soluteCubic(1,3,90,11);
 		for (int i=0;i<ans.size();i++)
 			System.out.println(ans.get(i));
 	}
